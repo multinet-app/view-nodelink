@@ -8,7 +8,7 @@ import {
 import {
   Link, Node, Network, NetworkMetadata, SimulationLink, State, LinkStyleVariables, LoadError, NestedVariables, ProvenanceEventTypes,
 } from '@/types';
-import api from '@/api';
+import { generateAPI } from '@/api';
 import {
   GraphSpec, RowsSpec, TableMetadata, TableRow,
 } from 'multinet';
@@ -395,10 +395,14 @@ const {
     },
   },
   actions: {
-    async fetchNetwork(context, { workspaceName, networkName }) {
+    async fetchNetwork(context, payload: { workspaceName: string; networkName: string; host: string }) {
       const { commit } = rootActionContext(context);
+      const { workspaceName, networkName, host } = payload;
+
       commit.setWorkspaceName(workspaceName);
       commit.setNetworkName(networkName);
+
+      const api = generateAPI(host);
 
       let networkTables: GraphSpec | undefined;
 

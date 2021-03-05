@@ -34,11 +34,12 @@ export default {
       return null;
     });
 
-    const { workspace, graph } = getUrlVars();
+    const { workspace, graph, host } = getUrlVars();
 
     store.dispatch.fetchNetwork({
       workspaceName: workspace,
       networkName: graph,
+      host,
     }).then(() => store.dispatch.createProvenance());
 
     // Provenance vis boolean
